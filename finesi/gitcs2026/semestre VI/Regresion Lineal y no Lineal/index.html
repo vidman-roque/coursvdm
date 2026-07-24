@@ -1,1 +1,507 @@
+<!DOCTYPE html>
+<html lang="es">
 
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Lora:wght@500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="./lib/style.css">
+    <script type="text/javascript" src="./lib/hidebib.js"></script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Regresión Lineal y No Lineal</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="author" content="VARGAS VALVERDE CONFESOR MILAN">
+    <meta name="keywords"
+        content="regresión lineal, regresión no lineal, modelos estadísticos, ciencia de datos, análisis de datos, machine learning, estadística, econometría" />
+    <meta name="description"
+        content="Sílabo actualizado del curso de Regresión Lineal y No Lineal - Ingeniería Estadística e Informática - UNAP" />
+    <style>
+        :root {
+            --bg: #F8F9FA;
+            --paper: #FFFFFF;
+            --ink: #212529;
+            --ink-2: #495057;
+            --rule: #111e2c;
+            --accent: #005A9C;
+            --accent-light: #E7F3FF;
+            --accent-border: #BDE0FF;
+            --header-font: "Lora", serif;
+            --body-font: "Inter", sans-serif;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--body-font);
+            background-color: var(--bg);
+            color: var(--ink);
+            line-height: 1.65;
+            -webkit-font-smoothing: antialiased;
+            padding: 2rem 1rem;
+        }
+
+        .page {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: var(--paper);
+            border-radius: 8px;
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
+            padding: clamp(1.5rem, 5vw, 3rem);
+        }
+
+        header {
+            border-bottom: 1px solid var(--rule);
+            padding-bottom: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        header h1 {
+            font-family: var(--header-font);
+            font-size: clamp(2rem, 6vw, 2.75rem);
+            color: var(--ink);
+            line-height: 1.2;
+            margin-bottom: 0.5rem;
+        }
+
+        .course-meta {
+            font-size: 0.9rem;
+            color: var(--ink-2);
+            margin-bottom: 1rem;
+        }
+
+        .course-meta span {
+            margin-right: 1rem;
+            white-space: nowrap;
+        }
+
+        .teacher {
+            font-weight: 500;
+        }
+
+        nav {
+            margin-top: 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem 1.5rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--ink-2);
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        nav a:hover {
+            color: var(--accent);
+        }
+
+        section {
+            margin-bottom: 2.5rem;
+        }
+
+        section:last-child {
+            margin-bottom: 0;
+        }
+
+        h2 {
+            font-family: var(--header-font);
+            font-size: 1.75rem;
+            color: var(--ink);
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent);
+            display: inline-block;
+        }
+
+        h3 {
+            font-family: var(--header-font);
+            font-size: 1.25rem;
+            color: var(--ink);
+            margin-bottom: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        p,
+        li {
+            color: var(--ink-2);
+            font-size: 1rem;
+            text-align: justify;
+        }
+
+        p+p {
+            margin-top: 1rem;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 1.5rem;
+        }
+
+        li::before {
+            content: '•';
+            position: absolute;
+            left: -1.5rem;
+            color: var(--accent);
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        li {
+            position: relative;
+            margin-bottom: 0.6rem;
+        }
+
+        b,
+        strong {
+            color: var(--ink);
+            font-weight: 700;
+        }
+
+        .unit {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background-color: var(--accent-light);
+            border-left: 4px solid var(--accent);
+            border-radius: 4px;
+        }
+
+        .unit p {
+            margin-bottom: 0.5rem;
+        }
+
+        .unit ul {
+            margin-top: 1rem;
+        }
+
+        a {
+            color: var(--accent);
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--rule);
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--ink-2);
+        }
+
+        /* Botón de descarga PDF */
+        .fab {
+            position: fixed;
+            right: 26px;
+            bottom: 26px;
+            z-index: 50;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            border: 0;
+            font-family: var(--body-font);
+            font-weight: 600;
+            font-size: .88rem;
+            border-radius: 50px;
+            padding: 14px 22px;
+            background: var(--ink);
+            color: var(--paper);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, .2);
+            transition: transform .25s ease, background .25s ease;
+        }
+
+        .fab:hover {
+            transform: translateY(-3px);
+            background: #343a40;
+        }
+
+        .print-helper {
+            position: fixed;
+            bottom: 90px;
+            right: 26px;
+            background-color: #333;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 6px;
+            z-index: 100;
+            font-size: 0.9rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+
+        .print-helper.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .fab svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Estilos para impresión */
+        @media print {
+            @page {
+                margin: 0;
+                size: A4;
+            }
+
+            body {
+                padding: 0 !important;
+                background: #fff !important;
+            }
+
+            .page {
+                max-width: none;
+                width: 100%;
+                box-shadow: none;
+                border-radius: 0;
+                margin: 0;
+                padding: 1.5rem;
+            }
+
+            .fab,
+            .print-helper {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="page">
+        <header>
+            <h1>Regresión Lineal y No Lineal</h1>
+            <div class="course-meta">
+                <p>Ingeniería Estadística e Informática<br>
+                    Facultad de Ingeniería Estadística e Informática<br>
+                    Universidad Nacional del Altiplano - Puno</p>
+                <p>
+                    <span><strong>Ciclo:</strong> VI</span>
+                    <span><strong>Sección:</strong> UNICO</span>
+                    <span><strong>Créditos:</strong> 4</span>
+                    <span><strong>Horas:</strong> 5 (3 teóricas, 2 prácticas)</span>
+                </p>
+                <p class="teacher">
+                    <strong>Responsable de asignatura:</strong> VARGAS VALVERDE CONFESOR
+                    MILAN
+                </p>
+            </div>
+            <nav>
+                <a href="#sumilla">Sumilla</a>
+                <a href="#logro">Logro</a>
+                <a href="#contenido">Contenido</a>
+                <a href="#metodologia">Metodología</a>
+                <a href="#evaluacion">Evaluación</a>
+                <a href="#entregables">Entregables</a>
+                <a href="#recursos">Recursos</a>
+                <a href="#bibliografia">Bibliografía</a>
+                <a href="#contacto">Contacto</a>
+            </nav>
+        </header>
+
+        <section id="sumilla">
+            <h2>Sumilla</h2>
+            <p>
+                La asignatura corresponde al área de estudios de especialidad, es de naturaleza teórico-práctica y tiene
+                como propósito desarrollar competencias para modelar la relación entre variables mediante técnicas de
+                regresión. [9] Se abordan los fundamentos del modelo de regresión lineal simple y múltiple, la
+                estimación de parámetros, el diagnóstico del modelo y la validación de supuestos. [2] Adicionalmente, se
+                exploran modelos de regresión no lineal para capturar relaciones más complejas en los datos. El curso
+                fomenta el uso de software estadístico para la aplicación práctica de los modelos en la resolución de
+                problemas de ingeniería y ciencia de datos. [4]
+            </p>
+        </section>
+
+        <section id="logro">
+            <h2>Logro del curso</h2>
+            <p>
+                Al finalizar el curso, el estudiante aplica modelos de regresión lineal y no lineal para analizar,
+                interpretar y predecir el comportamiento de una variable dependiente a partir de un conjunto de
+                variables predictoras. [11, 20] El estudiante será capaz de construir, validar y diagnosticar modelos
+                estadísticos, así como de seleccionar la mejor ecuación de regresión para resolver problemas reales,
+                utilizando software especializado y comunicando los resultados de manera efectiva. [2]
+            </p>
+        </section>
+
+        <section id="contenido">
+            <h2>Contenido</h2>
+            <div class="unit">
+                <h3>Unidad I: Fundamentos y Regresión Lineal Simple</h3>
+                <p><b>Duración:</b> Semanas 1 al 6</p>
+                <p><b>Logro de unidad:</b> Al finalizar la unidad, el estudiante comprende y aplica el modelo de
+                    regresión lineal simple para cuantificar y analizar la relación entre dos variables cuantitativas.
+                </p>
+
+                <ul>
+                    <li><b>Semana 1:</b> Introducción al análisis de regresión. Relación entre variables. Diagramas de
+                        dispersión.</li>
+                    <li><b>Semana 2:</b> Correlación lineal. Coeficiente de correlación de Pearson. Interpretación y
+                        propiedades.</li>
+                    <li><b>Semana 3:</b> Modelo de Regresión Lineal Simple. Supuestos del modelo.</li>
+                    <li><b>Semana 4:</b> Estimación de parámetros por Mínimos Cuadrados Ordinarios (MCO). Interpretación
+                        de coeficientes (intercepto y pendiente). [6]</li>
+                    <li><b>Semana 5:</b> Inferencia sobre los parámetros del modelo. Pruebas de hipótesis e intervalos
+                        de confianza.</li>
+                    <li><b>Semana 6:</b> Evaluación del modelo. Coeficiente de determinación (R²). Error estándar de la
+                        estimación. Análisis de Varianza (ANOVA) en regresión. [2]</li>
+                </ul>
+            </div>
+
+            <div class="unit">
+                <h3>Unidad II: Regresión Lineal Múltiple y Diagnóstico del Modelo</h3>
+                <p><b>Duración:</b> Semanas 7 al 12</p>
+                <p><b>Logro de unidad:</b> Al finalizar la unidad, el estudiante construye y valida modelos de regresión
+                    lineal múltiple, diagnosticando posibles problemas y aplicando soluciones adecuadas.</p>
+                <ul>
+                    <li><b>Semana 7:</b> Modelo de Regresión Lineal Múltiple. Formulación matricial. Estimación de
+                        parámetros. [2]</li>
+                    <li><b>Semana 8:</b> Inferencia en Regresión Múltiple. R² ajustado. Pruebas de hipótesis globales
+                        (Test F) e individuales (Test t).</li>
+                    <li><b>Semana 9:</b> Variables categóricas (dummy) en modelos de regresión. Interacción entre
+                        variables.</li>
+                    <li><b>Semana 10:</b> Diagnóstico del modelo: Análisis de residuos para validar supuestos
+                        (linealidad, normalidad, homocedasticidad). [2]</li>
+                    <li><b>Semana 11:</b> Detección de problemas: Multicolinealidad, valores atípicos e influyentes. [2]
+                    </li>
+                    <li><b>Semana 12:</b> Selección de variables y construcción de modelos. Criterios de información
+                        (AIC, BIC). Métodos de selección (stepwise).</li>
+                </ul>
+            </div>
+
+            <div class="unit">
+                <h3>Unidad III: Regresión No Lineal y Tópicos Avanzados</h3>
+                <p><b>Duración:</b> Semanas 13 al 18</p>
+                <p><b>Logro de unidad:</b> Al finalizar la unidad, el estudiante identifica situaciones que requieren
+                    modelos no lineales y aplica técnicas de regresión adecuadas para modelar relaciones complejas.</p>
+                <ul>
+                    <li><b>Semana 13:</b> Introducción a la Regresión No Lineal. Modelos polinómicos. [7]</li>
+                    <li><b>Semana 14:</b> Transformaciones de variables para linealizar modelos (logarítmica, recíproca,
+                        etc.).</li>
+                    <li><b>Semana 15:</b> Modelos de regresión no lineal intrínsecamente (ej. exponencial, potencial).
+                        [9]</li>
+                    <li><b>Semana 16:</b> Introducción a los Modelos Lineales Generalizados (GLM): Regresión Logística
+                        para respuestas binarias.</li>
+                    <li><b>Semana 17:</b> Aplicación de modelos de regresión en casos de estudio. Interpretación y
+                        comunicación de resultados.</li>
+                    <li><b>Semana 18:</b> Presentación de proyecto final y evaluación de competencias.</li>
+                </ul>
+            </div>
+        </section>
+
+        <hr />
+        <section id="metodologia">
+            <h2>Metodología</h2>
+            <ul>
+                <li>Sesiones teóricas expositivas para la presentación de conceptos y modelos.</li>
+                <li>Sesiones prácticas en laboratorio de cómputo para el análisis de datos con software estadístico (R,
+                    Python o SPSS).</li>
+                <li>Aprendizaje basado en problemas y análisis de casos reales. [2]</li>
+                <li>Desarrollo de un proyecto de análisis de datos a lo largo del semestre.</li>
+                <li>Asesoría continua para el desarrollo del proyecto y resolución de dudas.</li>
+            </ul>
+        </section>
+
+        <section id="evaluacion">
+            <h2>Evaluación</h2>
+            <ul>
+                <li><b>Prácticas Calificadas (2):</b> 30%</li>
+                <li><b>Examen Parcial:</b> 25%</li>
+                <li><b>Proyecto Final (Informe y Sustentación):</b> 30%</li>
+                <li><b>Tareas y Controles de Lectura:</b> 15%</li>
+            </ul>
+        </section>
+
+        <section id="entregables">
+            <h2>Entregables</h2>
+            <ul>
+                <li>Informes de laboratorio con análisis de regresión de conjuntos de datos.</li>
+                <li>Avances del proyecto de investigación.</li>
+                <li>Informe final del proyecto, incluyendo análisis, interpretación y validación de modelos.</li>
+                <li>Código y scripts utilizados para el análisis.</li>
+                <li>Presentación oral del proyecto final.</li>
+            </ul>
+        </section>
+
+        <section id="recursos">
+            <h2>Recursos</h2>
+            <ul>
+                <li><a href="https://www.r-project.org/" target="_blank">Software Estadístico R</a></li>
+                <li><a href="https://posit.co/products/open-source/rstudio/" target="_blank">RStudio IDE</a></li>
+                <li><a href="https://www.python.org/" target="_blank">Python (con librerías como Pandas, Scikit-learn,
+                        Statsmodels)</a></li>
+                <li><a href="https://www.ibm.com/spss" target="_blank">IBM SPSS Statistics</a></li>
+                <li><a href="https://colab.research.google.com/" target="_blank">Google Colab</a></li>
+            </ul>
+        </section>
+
+        <section id="bibliografia">
+            <h2>Bibliografía</h2>
+            <ul>
+                <li>Devore, J. L. (2012). Probabilidad y Estadística para Ingeniería y Ciencias. 8ª ed. Cengage
+                    Learning. [4]</li>
+                <li>Montgomery, D. C., Peck, E. A., & Vining, G. G. (2021). Introduction to Linear Regression Analysis.
+                    6th ed. Wiley.</li>
+                <li>Weisberg, S. (2013). Applied Linear Regression. 4th ed. Wiley.</li>
+                <li>James, G., Witten, D., Hastie, T., & Tibshirani, R. (2013). An Introduction to Statistical Learning.
+                    Springer.</li>
+                <li>Gujarati, D. N., & Porter, D. C. (2009). Econometría. 5ª ed. McGraw-Hill.</li>
+            </ul>
+        </section>
+
+        <section id="contacto">
+            <h2>Contacto</h2>
+            <p><a href="mailto:cvargasv@unap.edu.pe">cvargasv@unap.edu.pe</a></p>
+        </section>
+
+        <footer>
+            <p>&copy; 2026 UNAP - FINESI - Ingeniería Estadística e Informática</p>
+        </footer>
+    </main>
+
+    <!-- Mensaje de ayuda para la impresión -->
+    <div id="printHelper" class="print-helper">
+        En el diálogo de impresión, selecciona "Guardar como PDF".
+    </div>
+
+    <!-- Botón Descargar PDF -->
+    <button class="fab" id="downloadBtn" aria-label="Descargar Sílabo en PDF" title="Descargar Sílabo en PDF">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 3v12M7 10l5 5 5-5M5 21h14" />
+        </svg>
+        <span>Descargar PDF</span>
+    </button>
+
+    <script>
+        hideallbibs();
+        /* Guía al usuario para guardar como PDF usando el diálogo de impresión. */
+        document.getElementById('downloadBtn').addEventListener('click', function () {
+            const helper = document.getElementById('printHelper');
+            // Muestra el mensaje de ayuda
+            helper.classList.add('show');
+            // Abre el diálogo de impresión
+            window.print();
+            // Oculta el mensaje después de un tiempo
+            setTimeout(() => { helper.classList.remove('show'); }, 4000);
+        });
+    </script>
+
+</body>
+
+</html>
